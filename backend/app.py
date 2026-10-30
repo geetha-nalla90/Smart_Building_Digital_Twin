@@ -126,21 +126,12 @@ def create_app(
 
     @app.get("/api/building/current")
     def get_current_building():
-        print("CURRENT API ROUTE ENTERED", flush=True)
-        reading, prediction = current_prediction()
-        print("BEFORE JSON RESPONSE", flush=True)
+        print("TEST ROUTE ENTERED", flush=True)
 
-        response = jsonify({
-            "building_id": reading["Building_ID"],
-            "current": reading,
-            "predicted_energy_consumption": prediction,
-            "last_updated": reading["timestamp"],
-            "data_source": "simulated",
-            "data_label": "SIMULATED REAL-TIME DATA",
-            })
-
-        print("AFTER JSON RESPONSE", flush=True)
-        return response
+        return jsonify({
+            "status": "success",
+            "message": "Current API is responding"
+        })
 
     @app.post("/api/energy/predict")
     def predict_energy():
