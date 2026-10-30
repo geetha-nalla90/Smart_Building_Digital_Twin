@@ -128,9 +128,16 @@ def create_app(
     def get_current_building():
         print("CURRENT API ROUTE ENTERED", flush=True)
 
-        reading = simulator.current()
+        history = simulator.history()
 
-        print("READING RECEIVED", flush=True)
+        print("SIMULATOR HISTORY RECEIVED", flush=True)
+
+        if not history:
+            return jsonify({"error": "No readings available"}), 503
+
+        reading = history[-1]
+
+        print("CURRENT READING RECEIVED", flush=True)
 
         return jsonify({
             "building_id": reading["Building_ID"],
