@@ -66,6 +66,7 @@ def create_app(
                 "input": normalized,
             }
         )
+        print("PREDICT_READING: Returning prediction", flush=True)
         return prediction
 
     def live_prediction_for(reading: dict[str, Any]) -> float:
