@@ -126,11 +126,18 @@ def create_app(
 
     @app.get("/api/building/current")
     def get_current_building():
-        print("TEST ROUTE ENTERED", flush=True)
+        print("CURRENT API ROUTE ENTERED", flush=True)
+
+        reading = simulator.current()
+
+        print("READING RECEIVED", flush=True)
 
         return jsonify({
-            "status": "success",
-            "message": "Current API is responding"
+            "building_id": reading["Building_ID"],
+            "current": reading,
+            "last_updated": reading["timestamp"],
+            "data_source": "simulated",
+            "data_label": "SIMULATED REAL-TIME DATA",
         })
 
     @app.post("/api/energy/predict")
