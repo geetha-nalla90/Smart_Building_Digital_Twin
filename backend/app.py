@@ -126,22 +126,18 @@ def create_app(
 
     @app.get("/api/building/current")
     def get_current_building():
-        print("CURRENT API ROUTE ENTERED", flush=True)
-
         history = simulator.history()
-
-        print("SIMULATOR HISTORY RECEIVED", flush=True)
 
         if not history:
             return jsonify({"error": "No readings available"}), 503
 
         reading = history[-1]
-
-        print("CURRENT READING RECEIVED", flush=True)
+        prediction = live_prediction_for(reading)
 
         return jsonify({
             "building_id": reading["Building_ID"],
             "current": reading,
+            "predicted_energy_consumption": prediction,
             "last_updated": reading["timestamp"],
             "data_source": "simulated",
             "data_label": "SIMULATED REAL-TIME DATA",
