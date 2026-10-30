@@ -52,7 +52,9 @@ def create_app(
 
     def predict_reading(reading: dict[str, Any], source: str) -> float:
         normalized = validate_reading(reading)
+        print("Starting model prediction...", flush=True)
         prediction = float(model.predict(input_frame(normalized))[0])
+        print("Model prediction completed:", prediction, flush=True)
         prediction_history.append(
             {
                 "timestamp": reading.get(
