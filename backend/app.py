@@ -126,12 +126,7 @@ def create_app(
 
     @app.get("/api/building/current")
     def get_current_building():
-        history = simulator.history()
-
-        if not history:
-            return jsonify({"error": "No readings available"}), 503
-
-        reading = history[-1]
+        reading = simulator.current()
 
         prediction = live_prediction_for(reading)
 
