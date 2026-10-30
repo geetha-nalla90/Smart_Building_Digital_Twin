@@ -82,6 +82,7 @@ def create_app(
             while len(live_predictions) > 10:
                 oldest_timestamp = next(iter(live_predictions))
                 del live_predictions[oldest_timestamp]
+            print("LIVE PREDICTION: Returning cached prediction", flush=True)
             return live_predictions[timestamp]
 
     def update_live_prediction(reading: dict[str, Any]) -> None:
