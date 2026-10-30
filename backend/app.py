@@ -121,6 +121,7 @@ def create_app(
 
     @app.get("/api/building/current")
     def get_current_building():
+        print("CURRENT API ROUTE ENTERED", flush=True)
         reading, prediction = current_prediction()
         return jsonify(
             {
