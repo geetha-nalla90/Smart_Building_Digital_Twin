@@ -132,12 +132,21 @@ def create_app(
             return jsonify({"error": "No readings available"}), 503
 
         reading = history[-1]
-        prediction = live_prediction_for(reading)
+
+        latest_prediction = None
+
+        for item in reversed(prediction_history):
+            if item["source"] == "simulated_live_reading":
+                latest_prediction = item
+                break
+
+        if latest_prediction is None:
+            return jsonify({"error": "Prediction not available yet"}), 503
 
         return jsonify({
             "building_id": reading["Building_ID"],
             "current": reading,
-            "predicted_energy_consumption": prediction,
+            "predicted_energy_consumption": latest_prediction["predicted_energy"],
             "last_updated": reading["timestamp"],
             "data_source": "simulated",
             "data_label": "SIMULATED REAL-TIME DATA",
