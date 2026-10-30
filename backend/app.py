@@ -154,7 +154,10 @@ def create_app(
         unknown = sorted(set(payload) - ALLOWED_INPUTS)
         if unknown:
             return jsonify({"error": f"Unknown input fields: {unknown}"}), 400
-        reading = simulator.current()
+        history = simulator.history()
+        if not history:
+            return jsonify({"error": "No readings available"}), 503
+        reading = history[-1]
         reading.update(payload)
         prediction = predict_reading(reading, "prediction_request")
         return jsonify(
