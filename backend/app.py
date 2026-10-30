@@ -86,8 +86,17 @@ def create_app(
     simulator.on_update = update_live_prediction
 
     def current_prediction() -> tuple[dict[str, Any], float]:
+        print("STEP 1: Getting current reading...", flush=True)
+
         reading = simulator.current()
-        return reading, live_prediction_for(reading)
+
+        print("STEP 2: Current reading received.", flush=True)
+
+        prediction = live_prediction_for(reading)
+
+        print("STEP 3: Prediction received.", flush=True)
+
+        return reading, prediction
 
     @app.after_request
     def add_api_headers(response):
