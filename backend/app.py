@@ -69,15 +69,18 @@ def create_app(
         return prediction
 
     def live_prediction_for(reading: dict[str, Any]) -> float:
+        print("LIVE PREDICTION: Entered function", flush=True)
         timestamp = reading["timestamp"]
+        print("LIVE PREDICTION: Waiting for lock", flush=True)
         with prediction_lock:
+            print("LIVE PREDICTION: Lock acquired", flush=True)
             if timestamp not in live_predictions:
                 live_predictions[timestamp] = predict_reading(
                     reading, "simulated_live_reading"
                 )
-                while len(live_predictions) > 10:
-                    oldest_timestamp = next(iter(live_predictions))
-                    del live_predictions[oldest_timestamp]
+            while len(live_predictions) > 10:
+                oldest_timestamp = next(iter(live_predictions))
+                del live_predictions[oldest_timestamp]
             return live_predictions[timestamp]
 
     def update_live_prediction(reading: dict[str, Any]) -> None:
