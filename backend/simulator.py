@@ -5,11 +5,11 @@ from datetime import datetime
 import threading
 import time
 from typing import Any, Callable
-
+import logging
 import numpy as np
 import pandas as pd
 
-
+LOGGER = logging.getLogger(__name__)
 class BuildingSimulator:
     def __init__(
         self,
@@ -63,13 +63,21 @@ class BuildingSimulator:
 
     def _run(self) -> None:
         next_tick = time.monotonic()
+
         while not self._stopping.is_set():
-            self._step()
+            try:
+                self._step()
+            except Exception:
+                LOGGER.exception("Building simulator update failed")
+
             next_tick += self.interval_seconds
+
             delay = next_tick - time.monotonic()
+
             if delay < 0:
                 next_tick = time.monotonic()
                 delay = 0
+
             if self._stopping.wait(delay):
                 break
 
@@ -173,7 +181,10 @@ class BuildingSimulator:
             result = dict(reading)
 
         if self.on_update is not None:
-            self.on_update(result)
+            try:
+                self.on_update(result)
+            except Exception:
+                LOGGER.exception("Live prediction callback failed")
         return result
 
     def current(self) -> dict[str, Any]:

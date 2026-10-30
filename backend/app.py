@@ -133,9 +133,7 @@ def create_app(
 
         reading = history[-1]
 
-        prediction = predict_reading(
-            reading, "api_current_reading"
-        )
+        prediction = live_prediction_for(reading)
 
         return jsonify({
             "building_id": reading["Building_ID"],
