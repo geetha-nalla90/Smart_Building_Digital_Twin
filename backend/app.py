@@ -88,8 +88,6 @@ def create_app(
     def update_live_prediction(reading: dict[str, Any]) -> None:
         live_prediction_for(reading)
 
-    simulator.on_update = update_live_prediction
-
     def current_prediction() -> tuple[dict[str, Any], float]:
         print("STEP 1: Getting current reading...", flush=True)
 
@@ -126,12 +124,10 @@ def create_app(
 
     @app.get("/api/building/current")
     def get_current_building():
-        history = simulator.history()
+        # Get the latest reading or generate a fresh one
+        reading = simulator.current()
 
-        if not history:
-            return jsonify({"error": "No readings available"}), 503
-
-        reading = history[-1]
+        # Predict energy using the latest reading
         prediction = live_prediction_for(reading)
 
         return jsonify({
