@@ -1,0 +1,46 @@
+{
+  "dataset": "04_smart_building_energy_digital_twin2.csv",
+  "rows": 500,
+  "train_rows": 400,
+  "test_rows": 100,
+  "split_method": "chronological 80/20; preprocessing fitted on training data",
+  "selection_metric": "lowest test MAE",
+  "best_model": "Linear Regression",
+  "best_metrics": {
+    "model": "Linear Regression",
+    "mae": 46.11328542937794,
+    "mse": 3633.0673884807907,
+    "rmse": 60.274931675455186,
+    "r2": 0.9724728618788943
+  },
+  "models": [
+    {
+      "model": "Linear Regression",
+      "mae": 46.11328542937794,
+      "mse": 3633.0673884807907,
+      "rmse": 60.274931675455186,
+      "r2": 0.9724728618788943
+    },
+    {
+      "model": "Gradient Boosting",
+      "mae": 50.30046387778351,
+      "mse": 4736.114882928093,
+      "rmse": 68.81943681059947,
+      "r2": 0.9641152572745691
+    },
+    {
+      "model": "Random Forest",
+      "mae": 55.37779569133093,
+      "mse": 5312.911500366593,
+      "rmse": 72.88972150013055,
+      "r2": 0.959744966702377
+    },
+    {
+      "model": "Decision Tree",
+      "mae": 87.15262594072594,
+      "mse": 11645.386797463165,
+      "rmse": 107.91379336054851,
+      "r2": 0.9117648706809378
+    }
+  ]
+}
